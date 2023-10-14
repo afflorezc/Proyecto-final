@@ -1,0 +1,6 @@
+{
+  "appTitle": "power_bike",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
