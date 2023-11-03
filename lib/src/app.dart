@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:power_bike/src/storage/personal_data.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
 import 'sample_feature/sample_item_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 import 'first_use/initial_survey.dart';
+import 'first_use/survey_data_controller.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
   const MyApp({
     super.key,
     required this.settingsController,
-    required this.personalData
+    required this.surveyData,
   });
 
   final SettingsController settingsController;
-  final PersonalDataStorage personalData;
+  final SurveyData surveyData;
   @override
   Widget build(BuildContext context) {
     // Glue the SettingsController to the MaterialApp.
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: personalData.initRoute,
+          initialRoute: surveyData.setInitialRoute(),
           // Providing a restorationScopeId allows the Navigator built by the
           // MaterialApp to restore the navigation stack when a user leaves and
           // returns to the app after it has been killed while running in the
@@ -70,15 +70,27 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
+
                 switch (routeSettings.name) {
+
                   case InitSurvey.routeName:
-                    return  InitSurvey(personalData: personalData);
+
+                    return  InitSurvey(
+                      surveyDataController: surveyData,
+                      );
+    
                   case SettingsView.routeName:
+
                     return SettingsView(controller: settingsController);
+
                   case SampleItemDetailsView.routeName:
+
                     return const SampleItemDetailsView();
+
                   case SampleItemListView.routeName:
+
                   default:
+
                     return const SampleItemListView();
                 }
               },

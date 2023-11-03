@@ -1,71 +1,73 @@
 import 'package:flutter/material.dart';
-import 'basic_data.dart';
-import 'welcome_page.dart';
-import '../sample_feature/sample_item_list_view.dart';
-import '../storage/personal_data.dart';
+import 'package:provider/provider.dart';
+import 'survey_data_controller.dart';
+
 
 /// Pantalla inicial de bienvenida cuando se hace un primer uso de la aplicación
 /// Da inicio a la caracterización inicial. Si esta página se muestra, la serie
 /// de "pantallas" de caracterización se deben ejecutar antes de entrar en la
 /// pantalla principal de la aplicación
-class InitSurvey extends StatefulWidget{
+
+class InitSurvey extends StatelessWidget{
+
   const InitSurvey({ 
     super.key, 
-    required this.personalData
+    required this.surveyDataController,
   });
 
-  static const routeName = '/bienvenida';
-  final PersonalDataStorage personalData;
-  @override
-  // ignore: no_logic_in_create_state
-  State<InitSurvey> createState() => _InitSurvey(personalData: personalData);
-
-}
-
-class _InitSurvey extends State<InitSurvey>{
-
-  _InitSurvey({
-    required this.personalData
-  });
-
-  int index = 0;
-  final PersonalDataStorage personalData;
-
-  void nextPage(){
-    setState((){ index++;});
-  }
+  static const routeName = '/welcome';
+  final SurveyData surveyDataController;
 
   @ override
   Widget build(BuildContext context){
-    Widget page;
-    switch (index){
-      case 0:
-        page = const WelcomePage();
-        break;
-      case 1:
-        page = BasicData(personalData: personalData);
-        break;
-      default:
-        return const SampleItemListView();    
-    }
-    return  Scaffold(
+        
+    return ChangeNotifierProvider(
+      create: (context) => surveyDataController,
+      child: const SurveyLayout(),  
+    );
+  }
+}
+
+class SurveyLayout extends StatelessWidget {
+  
+  const SurveyLayout({
+    super.key,
+  });
+
+  
+  @override
+  Widget build(BuildContext context) {
+
+    var surveyDataState = context.watch<SurveyData>();
+
+    surveyDataState.setPage();
+
+    return Scaffold(
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget> [
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 240),
+              constraints: const BoxConstraints(maxHeight: 220),
               child: const Image(
-                image: AssetImage('assets/images/logo_ia2.jpeg'), 
+                image: AssetImage('assets/images/logo_ia2.png'), 
               ),        
             ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+            ),
             Container(
-              child: page,
+              padding: const EdgeInsets.symmetric(horizontal:15),
+              child: surveyDataState.currentPage,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
             ),
             ElevatedButton(
-              child: const Text('Continuar...'),
+              child: Text(surveyDataState.buttonLabel),
               onPressed: () {
 
-                nextPage();
+                surveyDataState.next();
+
               },
             ),
           ],

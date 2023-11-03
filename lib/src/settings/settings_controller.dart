@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../definitions/enumerations.dart';
 
 import 'settings_service.dart';
 
@@ -12,6 +13,10 @@ class SettingsController with ChangeNotifier {
 
   // Make SettingsService a private variable so it is not used directly.
   final SettingsService _settingsService;
+
+  late UnitSystem _units;
+
+  UnitSystem get units => _units;
 
   // Make ThemeMode a private variable so it is not updated directly without
   // also persisting the changes with the SettingsService.
