@@ -16,7 +16,7 @@ class InitSurvey extends StatelessWidget{
   });
 
   static const routeName = '/welcome';
-  final SurveyData surveyDataController;
+  final SurveyDataController surveyDataController;
 
   @ override
   Widget build(BuildContext context){
@@ -38,10 +38,8 @@ class SurveyLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var surveyDataState = context.watch<SurveyData>();
-
-    surveyDataState.setPage();
-
+    var surveyDataState = context.watch<SurveyDataController>();
+    
     return Scaffold(
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +64,7 @@ class SurveyLayout extends StatelessWidget {
               child: Text(surveyDataState.buttonLabel),
               onPressed: () {
 
-                surveyDataState.next();
+                surveyDataState.next(context);
 
               },
             ),

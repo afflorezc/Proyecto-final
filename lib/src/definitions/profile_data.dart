@@ -3,9 +3,9 @@ import '../definitions/enumerations.dart';
 class ProfileData {
 
   String name = '';
-  int age = 0;
-  double height = 0.0;
-  double weight = 0.0;
+  int age = 20;
+  double height = 160.0;
+  double weight = 50.0;
   Gender gender = Gender.male;
   int maximumBpm = 0;
   double massIndex = 0.0;
@@ -18,6 +18,10 @@ class ProfileData {
     this.weight = weight;
     setMassIndex(units);
     setMaxBpm();
+  }
+
+  void setName(String name){
+    this.name = name;
   }
 
   void setMaxBpm(){
@@ -44,7 +48,28 @@ class ProfileData {
       height = 0.3048*height;
       weight = 0.4536*weight;
     }
-    massIndex = weight/(height*height);
+    double heightToCalc = height/100;
+    massIndex = weight/(height*heightToCalc);
+  }
+
+  void saveData(UnitSystem units){
+
+    setMassIndex(units);
+    setMaxBpm();
+
+  }
+
+  String getGender() {
+
+    switch(gender) {
+
+      case Gender.male:
+        return 'Masculino';
+      case Gender.female:
+        return 'Femenino';
+      default:
+        return 'No responde';    
+    }
   }
 
 }

@@ -1,252 +1,277 @@
 import 'package:flutter/material.dart';
-import 'package:power_bike/src/definitions/enumerations.dart';
+import 'package:provider/provider.dart';
+import 'package:power_bike/src/first_use/survey_data_controller.dart';
 
 /// Pantalla inicial de caracterización: Preguntas personales iniciales
-/// Nombre, edad (fecha de nacimiento), Estatura (en cm), Peso en (kg)
-class BasicData extends StatefulWidget{
+/// Nombre, genero, edad (fecha de nacimiento), Estatura (en cm/ft), Peso en (kg/lb)
+
+class BasicData extends StatelessWidget{
+
   const BasicData({
     super.key,
-    
-    });
-
-    
-    @override
-    State<BasicData> createState() => _BasicData();
-
-}
-
-
-class _BasicData extends State<BasicData>{
-
-  final GlobalKey<FormState> _basicDataKey = GlobalKey<FormState>();
-  double weight = 50.0;
-  double height =160.0;
-  int age = 18;
-  UnitSystem units = UnitSystem.international;
-  String labelWeight='kg';
-  String labelHeight = 'cm';
+    required this.surveyDataController,
+  });
   
-  void setLabel(){
-    switch(units){
-      case UnitSystem.international:
-         labelWeight ='kg';
-         labelHeight = 'cm';
-      case UnitSystem.imperial:
-        labelWeight ='lb';
-        labelHeight = 'ft';
-      default:
-        labelWeight = 'kg'; 
-        labelHeight = 'cm';    
-    }
+  final SurveyDataController surveyDataController;
+
+   @ override
+  Widget build(BuildContext context){
+        
+    return ChangeNotifierProvider(
+      create: (context) => surveyDataController,
+      child: const BasicDataForm(),  
+    );
   }
+} 
 
-  void increaseHeight(){
-    
-    switch(units){
+class BasicDataForm extends StatelessWidget{
 
-      case UnitSystem.international:
-        height += 1.0;
-      case UnitSystem.imperial:
-        height += 0.08;
-      default:
-        height +=1.0;    
-    }
-  }
-
-  void decreaseHeight(){
-    
-    switch(units){
-
-      case UnitSystem.international:
-        height -= 1.0;
-      case UnitSystem.imperial:
-        height -= 0.08;
-      default:
-        height -=1.0;    
-    }
-  }
-
-  void changeUnitsBtn(){
-    units = swapUnits(units);
-    weight = convertWeight(weight, units);
-    height = convertHeight(height, units);
-    setLabel();
-    setState(() {
-    });                  
-  }
-
-  void saveData(){
-
-    
-
-  }
+  const BasicDataForm({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context){
+
+    var surveyDataState = context.watch<SurveyDataController>();
+
     return Column(
       children: [
-        Form(
-          key: _basicDataKey,
-          child: Column(
-            children: <Widget>[
-
-              const NameInput(),
+        NameInput(surveyDataState: surveyDataState),
               
-              const SizedBox(
-                height: 8
-              ),
-
-              Row(
-                children: <Widget>[
-                  const Text("Edad: ", textScaleFactor: 1.10,),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text("<"),
-                    onPressed: () {
-                      age--;
-                      setState(() {
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Text('$age'),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text(">"),
-                    onPressed: () {
-                      age++;
-                      setState(() {
-                      });
-                    },
-                  ),
-                ]  
-              ),   
-
-              const SizedBox(
-                height: 8
-              ), 
-
-               Row(
-                children: <Widget>[
-                  const Text("Estatura: ", textScaleFactor: 1.10,),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text("<"),
-                    onPressed: () {
-                      decreaseHeight();
-                      setState(() {
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Text('$height'),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text(">"),
-                    onPressed: () {
-                      increaseHeight();
-                      setState(() {
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text("<"),
-                    onPressed: () {
-                      changeUnitsBtn();
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Text(labelHeight),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text(">"),
-                    onPressed: () {
-                      changeUnitsBtn();
-                    },
-                  ),
-                ],
-              ),
-
-              const SizedBox(
-                height: 8
-              ),
-
-              Row(
-                children: <Widget>[
-                  const Text("Peso: ", textScaleFactor: 1.10,),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text("<"),
-                    onPressed: () {
-                      weight -=1.0;
-                      setState(() {
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Text('$weight'),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text(">"),
-                    onPressed: () {
-                      weight +=1.0;
-                      setState(() {
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text("<"),
-                    onPressed: () {
-                      changeUnitsBtn();
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Text(labelWeight),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text(">"),
-                    onPressed: () {
-                      changeUnitsBtn();
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
+        const SizedBox(
+          height: 8
         ),
+
+        GenderInput(surveyDataState: surveyDataState),
+
+        AgeInput(surveyDataState: surveyDataState),   
+
+        const SizedBox(
+          height: 8
+        ), 
+
+        HeightInput(surveyDataState: surveyDataState),
+
+        const SizedBox(
+          height: 8
+        ),
+
+        WeightInput(surveyDataState: surveyDataState),
       ],
     );
   }
 
 }
 
-class NameInput extends StatelessWidget {
-  const NameInput({
+class WeightInput extends StatelessWidget {
+  const WeightInput({
     super.key,
+    required this.surveyDataState,
   });
+
+  final SurveyDataController surveyDataState;
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
+      children: <Widget>[
+        const Text("Peso: ", textScaleFactor: 1.10,),
+        const SizedBox(width: 8),
+        TextButton(
+          child: const Text("<"),
+          onPressed: () {
+            surveyDataState.decreaseWeight();
+          },
+        ),
+        const SizedBox(width: 8),
+        Text('${surveyDataState.personalData.profileData.weight}'),
+        const SizedBox(width: 8),
+        TextButton(
+          child: const Text(">"),
+          onPressed: () {
+            surveyDataState.increaseWeight();
+          },
+        ),
+        const SizedBox(width: 8),
+        TextButton(
+          child: const Text("<"),
+          onPressed: () {
+            surveyDataState.changeUnitsBtn();
+          },
+        ),
+        const SizedBox(width: 8),
+        Text(surveyDataState.labelWeight),
+        const SizedBox(width: 8),
+        TextButton(
+          child: const Text(">"),
+          onPressed: () {
+            surveyDataState.changeUnitsBtn();
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class AgeInput extends StatelessWidget {
+  const AgeInput({
+    super.key,
+    required this.surveyDataState,
+  });
+
+  final SurveyDataController surveyDataState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+
+        const Text("Edad: ", textScaleFactor: 1.10,),
+        
+        const SizedBox(width: 8),
+
+        TextButton(
+          child: const Text("<"),
+          onPressed: () {
+            surveyDataState.decreaseAge();
+          },
+        ),
+        
+        const SizedBox(width: 8),
+
+        Text('${surveyDataState.personalData.profileData.age}'),
+
+        const SizedBox(width: 8),
+
+        TextButton(
+          child: const Text(">"),
+          onPressed: () {
+            surveyDataState.increaseAge();
+          },
+        ),
+      ]  
+    );
+  }
+}
+
+class GenderInput extends StatelessWidget {
+  const GenderInput({
+    super.key,
+    required this.surveyDataState,
+  });
+
+  final SurveyDataController surveyDataState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+
+      children: <Widget>[
+
+        const Text("Género: ", textScaleFactor: 1.10,),
+
+        TextButton(
+          child: const Text("<"),
+          onPressed: () {
+            surveyDataState.changeGender();
+          },
+        ),
+        
+        const SizedBox(width: 8),
+
+        Text(surveyDataState.labelGender),
+
+        const SizedBox(width: 8),
+
+        TextButton(
+          child: const Text(">"),
+          onPressed: () {
+            surveyDataState.changeGender();
+          },
+        ),  
+
+      ]
+
+    );
+  }
+}
+
+class HeightInput extends StatelessWidget {
+  const HeightInput({
+    super.key,
+    required this.surveyDataState,
+  });
+
+  final SurveyDataController surveyDataState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        const Text("Estatura: ", textScaleFactor: 1.10,),
+        const SizedBox(width: 8),
+        TextButton(
+          child: const Text("<"),
+          onPressed: () {
+            surveyDataState.decreaseHeight();
+          },
+        ),
+        const SizedBox(width: 8),
+        Text('${surveyDataState.personalData.profileData.height}'),
+        const SizedBox(width: 8),
+        TextButton(
+          child: const Text(">"),
+          onPressed: () {
+            surveyDataState.increaseHeight();
+          },
+        ),
+        const SizedBox(width: 8),
+        TextButton(
+          child: const Text("<"),
+          onPressed: () {
+            surveyDataState.changeUnitsBtn();
+          },
+        ),
+        const SizedBox(width: 8),
+        Text(surveyDataState.labelHeight),
+        const SizedBox(width: 8),
+        TextButton(
+          child: const Text(">"),
+          onPressed: () {
+            surveyDataState.changeUnitsBtn();
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class NameInput extends StatelessWidget {
+  const NameInput({
+    super.key,
+    required this.surveyDataState,
+  });
+
+  final SurveyDataController surveyDataState;
+
+  @override
+  Widget build(BuildContext context) {
+    return   Row(
       children: <Widget>[
         const Text("Nombre: ", textScaleFactor: 1.1, ),
         const SizedBox(
           width: 8,
         ),
         Expanded(
-          child: TextFormField(
+          child: TextField(
+            onSubmitted: (String nameValue){
+              surveyDataState.personalData.profileData.setName(nameValue);
+            },
             decoration: const InputDecoration(  
               border: OutlineInputBorder(),
               hintText: "Ingrese su nombre",
             ),
-            validator: (String? text){
-              if(text == null || text.isEmpty){
-                return 'Por favor rellene por completo los datos';
-              }
-              return null;
-            },
           ),
         ),
       ],

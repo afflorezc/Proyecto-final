@@ -18,6 +18,12 @@ class SettingsController with ChangeNotifier {
 
   UnitSystem get units => _units;
 
+  void updateUnits(UnitSystem newUnits){
+
+    _units = newUnits;
+    
+  }
+
   // Make ThemeMode a private variable so it is not updated directly without
   // also persisting the changes with the SettingsService.
   late ThemeMode _themeMode;

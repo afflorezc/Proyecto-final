@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
   });
 
   final SettingsController settingsController;
-  final SurveyData surveyData;
+  final SurveyDataController surveyData;
+
   @override
   Widget build(BuildContext context) {
     // Glue the SettingsController to the MaterialApp.
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: surveyData.setInitialRoute(),
+          initialRoute: surveyData.getInitialRoute(),
           // Providing a restorationScopeId allows the Navigator built by the
           // MaterialApp to restore the navigation stack when a user leaves and
           // returns to the app after it has been killed while running in the

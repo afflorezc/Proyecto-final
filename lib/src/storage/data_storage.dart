@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DataStorage {
@@ -17,7 +18,7 @@ class DataStorage {
   Future<File>  get _localFile async{
 
     final path = await _localPath;
-    return File('$path/ $fileName');
+    return File('$path/$fileName');
   }
 
   Future<List<String>> readLine() async {
@@ -27,16 +28,19 @@ class DataStorage {
     return contents;
   }
 
-  Future<File> writeLine(String line) async{
-    final file = await _localFile;
-    return file.writeAsString(line + Platform.lineTerminator, mode:FileMode.append);  
-  }
+ 
 
   Future<bool> isFile() async {
     final directory = await getApplicationDocumentsDirectory();
     String path = directory.path;
-    path += '/ $fileName';
+    path += '/$fileName';
+    debugPrint(path);
     return  FileSystemEntity.isFile(path);
+  }
+
+  void writeLine(String line) async {
+    final file = await _localFile;
+    file.writeAsStringSync(line + Platform.lineTerminator, mode:FileMode.append);
   }
 
 }
