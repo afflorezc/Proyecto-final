@@ -265,7 +265,7 @@ class NameInput extends StatelessWidget {
         ),
         Expanded(
           child: TextField(
-            onSubmitted: (String nameValue){
+            onChanged: (String nameValue){
               surveyDataState.personalData.profileData.setName(nameValue);
             },
             decoration: const InputDecoration(  

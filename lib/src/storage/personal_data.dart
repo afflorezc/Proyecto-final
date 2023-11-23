@@ -39,6 +39,7 @@ class PersonalDataStorage {
     String text = 'DATOS PERSONALES';
     personalData.writeLine(text);
     text = 'Nombre: ${profileData.name}';
+
     personalData.writeLine(text);
     text = 'Género : ${profileData.getGender()}';
     personalData.writeLine(text);
@@ -50,7 +51,7 @@ class PersonalDataStorage {
     personalData.writeLine(text);
     text = 'Frecuencia cardiaca máxima: ${profileData.maximumBpm}';
     personalData.writeLine(text);
-    text = 'Indice de masa corporal ${profileData.massIndex}';
+    text = 'Indice de masa corporal: ${profileData.massIndex}';
     personalData.writeLine(text);
 
   }

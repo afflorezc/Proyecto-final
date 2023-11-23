@@ -36,9 +36,21 @@ class ExperienceDataForm extends StatelessWidget{
     return const Column(
 
       children: [
-
-        Text('Ayudanos ahora respondiendo una serie de preguntas '
+        SizedBox(
+            height: 8,
+        ),
+        Card(
+        child:  ListTile(
+          leading: Icon(Icons.directions_bike),
+          title: Text('TU DESEMPEÑO!'),
+          subtitle: Text('Ayudanos ahora respondiendo una serie de preguntas '
               'acerca de tu experiencia previa practicando el ciclismo'),
+          ),
+        ),
+        SizedBox(
+            height: 8,
+        ),
+        
       ],
 
 

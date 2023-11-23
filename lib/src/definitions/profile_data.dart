@@ -3,6 +3,7 @@ import '../definitions/enumerations.dart';
 class ProfileData {
 
   String name = '';
+  DateTime birthDay = DateTime.now();
   int age = 20;
   double height = 160.0;
   double weight = 50.0;
@@ -49,7 +50,7 @@ class ProfileData {
       weight = 0.4536*weight;
     }
     double heightToCalc = height/100;
-    massIndex = weight/(height*heightToCalc);
+    massIndex = weight/(heightToCalc*heightToCalc);
   }
 
   void saveData(UnitSystem units){
