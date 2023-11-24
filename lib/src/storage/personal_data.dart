@@ -18,7 +18,7 @@ class PersonalDataStorage {
   Future<void> route() async {
     bool exist = await fileExist();
     if(exist){
-      initRoute = '/';
+      initRoute = '/menu';
     }
     else{
       initRoute = '/welcome';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:power_bike/src/menu/menu.dart';
 import 'package:provider/provider.dart';
 import 'survey_data_controller.dart';
 
@@ -63,7 +64,9 @@ class SurveyLayout extends StatelessWidget {
             ElevatedButton(
               child: Text(surveyDataState.buttonLabel),
               onPressed: () {
-
+                if (surveyDataState.index == 2) {
+                  Navigator.restorablePushNamed(context, MainMenu.routeName);
+                }
                 surveyDataState.next(context);
 
               },
