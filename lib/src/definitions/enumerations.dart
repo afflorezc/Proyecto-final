@@ -1,5 +1,6 @@
 enum Gender {male, female, undefined}
 enum UnitSystem {international, imperial}
+enum Expertise {amateur, intermediate, advance, profesional, elite}
 
 UnitSystem swapUnits(UnitSystem units){
   switch(units){

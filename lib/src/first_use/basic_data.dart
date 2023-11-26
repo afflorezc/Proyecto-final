@@ -114,6 +114,47 @@ class WeightInput extends StatelessWidget {
   }
 }
 
+class BirthDayInput extends StatelessWidget {
+  const BirthDayInput({
+    super.key,
+    required this.surveyDataState,
+  });
+
+  final SurveyDataController surveyDataState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+
+        const Text("Edad: ", textScaleFactor: 1.10,),
+        
+        const SizedBox(width: 8),
+
+        TextButton(
+          child: const Text("<"),
+          onPressed: () {
+            surveyDataState.decreaseAge();
+          },
+        ),
+        
+        const SizedBox(width: 8),
+
+        Text('${surveyDataState.personalData.profileData.age}'),
+
+        const SizedBox(width: 8),
+
+        TextButton(
+          child: const Text(">"),
+          onPressed: () {
+            surveyDataState.increaseAge();
+          },
+        ),
+      ]  
+    );
+  }
+}
+
 class AgeInput extends StatelessWidget {
   const AgeInput({
     super.key,
